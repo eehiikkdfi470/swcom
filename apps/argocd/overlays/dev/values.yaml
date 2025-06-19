@@ -4,7 +4,6 @@
 
 controller:
   replicaCount: 1
-
 redis:
   enabled: true
 server:
