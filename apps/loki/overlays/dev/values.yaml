@@ -1,7 +1,5 @@
-# Ensure clean resource names like loki-distributor, loki-ingester, etc.
 fullnameOverride: "loki"
 
-# Distributor
 distributor:
   replicas: 1
   resources:
@@ -12,7 +10,6 @@ distributor:
       cpu: "200m"
       memory: "512Mi"
 
-# Ingester with persistent storage
 ingester:
   replicas: 1
   resources:
@@ -29,7 +26,6 @@ ingester:
         size: 5Gi
         storageClass: "standard"
 
-# Querier
 querier:
   replicas: 1
   resources:
@@ -40,7 +36,6 @@ querier:
       cpu: "200m"
       memory: "512Mi"
 
-# Query Frontend
 queryFrontend:
   replicas: 1
   resources:
@@ -51,7 +46,6 @@ queryFrontend:
       cpu: "100m"
       memory: "256Mi"
 
-# Compactor with persistent storage
 compactor:
   enabled: true
   kind: StatefulSet
@@ -68,7 +62,6 @@ compactor:
     size: 5Gi
     storageClass: "standard"
 
-# Index Gateway with persistent storage
 indexGateway:
   enabled: true
   replicas: 1
@@ -77,7 +70,6 @@ indexGateway:
     size: 5Gi
     storageClass: "standard"
 
-# Gateway
 gateway:
   enabled: true
   replicas: 1
@@ -89,26 +81,58 @@ gateway:
       cpu: "100m"
       memory: "256Mi"
 
-# Disable ruler
 ruler:
   enabled: false
 
-# Loki common storage config
 loki:
-  storageConfig:
-    boltdb_shipper:
+  structuredConfig:
+    auth_enabled: false
+    server:
+      http_listen_port: 3100
+    distributor:
+      ring:
+        kvstore:
+          store: memberlist
+    ingester:
+      lifecycler:
+        ring:
+          kvstore:
+            store: memberlist
+          replication_factor: 1
+      chunk_idle_period: 30m
+      chunk_block_size: 262144
+      chunk_encoding: snappy
+      chunk_retain_period: 1m
+      max_transfer_retries: 0
+      wal:
+        dir: /var/loki/wal
+    memberlist:
+      join_members:
+        - loki-memberlist
+    schema_config:
+      configs:
+        - from: "2020-10-15"
+          store: boltdb-shipper
+          object_store: filesystem
+          schema: v11
+          index:
+            prefix: loki_index_
+            period: 24h
+    storage_config:
+      boltdb_shipper:
+        shared_store: filesystem
+        active_index_directory: /var/loki/index
+        cache_location: /var/loki/cache
+      filesystem:
+        directory: /var/loki/chunks
+    compactor:
+      working_directory: /var/loki/compactor
       shared_store: filesystem
-      active_index_directory: /var/loki/index
-      cache_location: /var/loki/cache
-    filesystem:
-      directory: /var/loki/chunks
-
-  schemaConfig:
-    configs:
-      - from: "2020-10-15"
-        store: boltdb-shipper
-        object_store: filesystem
-        schema: v11
-        index:
-          prefix: loki_index_
-          period: 24h
+    limits_config:
+      reject_old_samples: true
+      reject_old_samples_max_age: 168h
+    chunk_store_config:
+      max_look_back_period: 0s
+    table_manager:
+      retention_deletes_enabled: false
+      retention_period: 0s
