@@ -1,3 +1,4 @@
+fullnameOverride: "loki"
 replicaCount: 1
 
 persistence:
@@ -34,6 +35,9 @@ distributor:
 
 querier:
   replicaCount: 1
+  persistence:
+    enabled: true
+    size: 5Gi
   resources:
     limits:
       cpu: "200m"
