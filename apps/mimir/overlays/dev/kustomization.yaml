@@ -5,3 +5,13 @@ namespace: mimir
 
 resources:
   - ../../base
+patchesStrategicMerge: []
+patchesJson6902: []
+configMapGenerator: []
+secretGenerator: []
+generators: []
+
+helmCharts:
+  - name: mimir-distributed
+    ...
+    valuesFile: values-dev.yaml  #local to this folder
