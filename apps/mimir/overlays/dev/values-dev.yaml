@@ -1,0 +1,19 @@
+# Dev-specific changes
+distributor:
+  replicas: 1
+
+ingester:
+  replicas: 1
+
+compactor:
+  replicas: 1
+  enabled: true
+
+storeGateway:
+  replicas: 1
+
+# Example: enable runtime config reloading
+runtimeConfig:
+  reload:
+    period: 2m
+
