@@ -3,15 +3,8 @@ kind: Kustomization
 
 namespace: mimir
 
-resources:
+bases:
   - ../../base
-patchesStrategicMerge: []
-patchesJson6902: []
-configMapGenerator: []
-secretGenerator: []
-generators: []
 
-helmCharts:
-  - name: mimir-distributed
-    ...
-    valuesFile: values-dev.yaml  #local to this folder
+patchesStrategicMerge: []
+

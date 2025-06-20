@@ -1,10 +1,19 @@
 alertmanager:
   pdb:
     enabled: true
+minio:
+  enabled: false
 
 compactor:
   persistentVolume:
     size: 5Gi
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "200m"
+      memory: "512Mi"
 
 distributor:
   replicas: 1
@@ -59,3 +68,18 @@ store_gateway:
     limits:
       cpu: "200m"
       memory: "512Mi"
+
+admin-cache:
+  enabled: false
+
+chunks-cache:
+  enabled: false
+
+index-cache:
+  enabled: false
+
+metadata-cache:
+  enabled: false
+
+results-cache:
+  enabled: false
