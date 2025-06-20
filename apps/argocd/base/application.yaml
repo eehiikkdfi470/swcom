@@ -17,7 +17,7 @@ spec:
     namespace: loki-dev
   syncPolicy:
     syncOptions:
-      - CreateNamespace=true #instruct argocd to cretae namesapce
+    - CreateNamespace=true #instruct argocd to cretae namesapce
     automated:
       prune: true
       selfHeal: true
