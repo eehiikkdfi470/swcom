@@ -73,6 +73,9 @@ storage:
 
 compactor:
   enabled: true
+  persistence:
+    enabled: true
+    size: 5Gi
   replicaCount: 1
   retentionEnabled: false
   compactionInterval: 10m

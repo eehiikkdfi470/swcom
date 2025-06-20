@@ -969,11 +969,18 @@ spec:
       - configMap:
           name: loki-loki-distributed-runtime
         name: runtime-config
-      - emptyDir: {}
-        name: data
   updateStrategy:
     rollingUpdate:
       partition: 0
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
 ---
 apiVersion: apps/v1
 kind: StatefulSet
