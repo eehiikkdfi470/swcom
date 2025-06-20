@@ -26,7 +26,7 @@ ingester:
 compactor:
   enabled: true
   replicaCount: 1
-  retentionEnabled: true
+  retentionEnabled: false
   compactionInterval: 10m
   sharedStore: filesystem   # Local filesystem
   persistence:
@@ -55,9 +55,6 @@ distributor:
 
 querier:
   replicaCount: 1
-  persistence:
-    enabled: true
-    size: 5Gi
   resources:
     limits:
       cpu: "200m"
