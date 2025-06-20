@@ -8,7 +8,7 @@ spec:
   project: default
   source:
     repoURL: 'https://github.com/eehiikkdfi470/swcom.git'
-    path: loki/overlays/dev      # <-- points to your Kustomize overlay for Loki
+    path: apps/loki/overlays/dev     # <-- points to your Kustomize overlay for Loki relative path
     targetRevision: main         # branch name
   destination:
     server: 'https://kubernetes.default.svc'
