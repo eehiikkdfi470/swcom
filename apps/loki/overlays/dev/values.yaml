@@ -1,0 +1,102 @@
+replicaCount: 1
+
+persistence:
+  enabled: true
+  size: 5Gi
+  storageClassName: "standard"
+
+ingester:
+  replicaCount: 1
+  wal:
+    enabled: true
+    storageClassName: "standard"
+    size: 5Gi
+  persistence:
+    enabled: true
+    size: 5Gi
+  resources:
+    limits:
+      cpu: "200m"
+      memory: "256Mi"
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+
+distributor:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: "100m"
+      memory: "128Mi"
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+
+querier:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: "200m"
+      memory: "256Mi"
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+
+queryFrontend:
+  replicaCount: 1
+  resources:
+    limits:
+      cpu: "100m"
+      memory: "128Mi"
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+
+# ruler:
+#   replicaCount: 1
+#   persistence:
+#     enabled: true
+#     size: 5Gi
+#   resources:
+#     limits:
+#       cpu: "100m"
+#       memory: "128Mi"
+#     requests:
+#       cpu: "50m"
+#       memory: "64Mi"
+
+storage:
+  backend: local
+
+  local:
+    directory: /data/loki
+
+compactor:
+  enabled: true
+  persistence:
+    enabled: true
+    size: 5Gi
+  replicaCount: 1
+  retentionEnabled: false
+  compactionInterval: 10m
+  resources:
+    limits:
+      cpu: "100m"
+      memory: "128Mi"
+    requests:
+      cpu: "50m"
+      memory: "64Mi"
+
+schema_config:
+  configs:
+    - from: 2020-10-15
+      store: boltdb-shipper
+      object_store: filesystem
+      schema: v11
+      index:
+        prefix: index_
+        period: 168h
+
+# Sampler configuration added here
+server:
+  grpc_server_max_concurrent_streams: 100

@@ -1,0 +1,12 @@
+compactor:
+  retentionEnabled: true
+
+limits_config:
+  retention_period: 168h
+  reject_old_samples: true
+  reject_old_samples_max_age: 48h
+  max_cache_freshness_per_query: 10m
+  split_queries_by_interval: 5m
+  query_timeout: 300s
+  volume_enabled: true
+  allow_structured_metadata: true

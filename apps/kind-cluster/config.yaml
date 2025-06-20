@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 kind: Cluster
 apiVersion: kind.x-k8s.io/v1alpha4
 nodes:
@@ -7,3 +8,16 @@ nodes:
   - role: worker
   - role: worker
   - role: worker
+=======
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+nodes:
+  - role: control-plane
+  - role: worker
+  - role: worker
+  - role: worker
+  - role: worker
+  - role: worker
+  - role: worker
+
+>>>>>>> e6b3a7d6aa986e979e2b1155d4129623fe85e588
