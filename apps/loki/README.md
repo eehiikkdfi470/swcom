@@ -13,7 +13,7 @@ In case of Production - refer to loki-application.yaml file in production under 
 
 #Apply the Application manifest to register Loki in Argo CD:
 
-        **kubectl apply -f apps/loki/overlays/dev/loki-application.yaml**
+        kubectl apply -f apps/loki/overlays/dev/loki-application.yaml
 
 Sync Loki from ArgoCD
 
