@@ -10,3 +10,6 @@ server:
     requests:
       cpu: 100m
       memory: 128Mi
+configs:
+  cm:
+    kustomize.buildOptions: --enable-helm
