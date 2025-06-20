@@ -5,12 +5,3 @@ namespace: mimir
 
 resources:
   - ../../base
-
-helmCharts:
-  - name: mimir-distributed
-    repo: https://grafana.github.io/helm-charts
-    version: 5.0.0
-    releaseName: mimir
-    namespace: mimir
-    valuesFile: values-dev.yaml
-

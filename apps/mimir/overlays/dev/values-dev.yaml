@@ -1,19 +1,61 @@
-# Dev-specific changes
+alertmanager:
+  pdb:
+    enabled: true
+
+compactor:
+  persistentVolume:
+    size: 5Gi
+
 distributor:
   replicas: 1
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "200m"
+      memory: "512Mi"
 
 ingester:
   replicas: 1
+  persistentVolume:
+    size: 5Gi
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "200m"
+      memory: "512Mi"
 
-compactor:
+querier:
   replicas: 1
-  enabled: true
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "200m"
+      memory: "512Mi"
 
-storeGateway:
+query_frontend:
   replicas: 1
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "200m"
+      memory: "512Mi"
 
-# Example: enable runtime config reloading
-runtimeConfig:
-  reload:
-    period: 2m
-
+store_gateway:
+  replicas: 1
+  persistentVolume:
+    size: 5Gi
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "200m"
+      memory: "512Mi"
