@@ -23,6 +23,23 @@ ingester:
       cpu: "100m"
       memory: "128Mi"
 
+compactor:
+  enabled: true
+  persistence:
+    enabled: true
+    size: 5Gi
+  replicaCount: 1
+  retentionEnabled: false
+  compactionInterval: 10m
+  resources:
+    limits:
+      cpu: "200m"
+      memory: "256Mi"
+    requests:
+      cpu: "100m"
+      memory: "128Mi"
+
+
 distributor:
   replicaCount: 1
   resources:
@@ -74,22 +91,6 @@ storage:
 
   local:
     directory: /data/loki
-
-compactor:
-  enabled: true
-  persistence:
-    enabled: true
-    size: 5Gi
-  replicaCount: 1
-  retentionEnabled: false
-  compactionInterval: 10m
-  resources:
-    limits:
-      cpu: "100m"
-      memory: "128Mi"
-    requests:
-      cpu: "50m"
-      memory: "64Mi"
 
 schema_config:
   configs:
