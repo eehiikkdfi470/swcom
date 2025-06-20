@@ -52,18 +52,18 @@ queryFrontend:
       cpu: "50m"
       memory: "64Mi"
 
-ruler:
-  replicaCount: 1
-  persistence:
-    enabled: true
-    size: 5Gi
-  resources:
-    limits:
-      cpu: "100m"
-      memory: "128Mi"
-    requests:
-      cpu: "50m"
-      memory: "64Mi"
+# ruler:
+#   replicaCount: 1
+#   persistence:
+#     enabled: true
+#     size: 5Gi
+#   resources:
+#     limits:
+#       cpu: "100m"
+#       memory: "128Mi"
+#     requests:
+#       cpu: "50m"
+#       memory: "64Mi"
 
 storage:
   backend: local
