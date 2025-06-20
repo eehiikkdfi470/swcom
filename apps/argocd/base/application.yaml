@@ -14,7 +14,7 @@ spec:
         - values.yaml
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: loki-dev
+    namespace: loki
   syncPolicy:
     syncOptions:
     - CreateNamespace=true #instruct argocd to cretae namesapce
