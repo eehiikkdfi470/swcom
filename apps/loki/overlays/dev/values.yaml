@@ -29,7 +29,7 @@ compactor:
     enabled: true
     size: 5Gi
   replicaCount: 1
-  retentionEnabled: false
+  retentionEnabled: true
   compactionInterval: 10m
   resources:
     limits:
