@@ -47,7 +47,7 @@ queryFrontend:
       memory: "256Mi"
 
 compactor:
-  enabled: true
+  enabled: true   
   kind: StatefulSet
   replicas: 1
   resources:
