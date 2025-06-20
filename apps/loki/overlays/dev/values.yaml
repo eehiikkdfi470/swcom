@@ -25,12 +25,14 @@ ingester:
 
 compactor:
   enabled: true
-  persistence:
-    enabled: true
-    size: 5Gi
   replicaCount: 1
   retentionEnabled: true
   compactionInterval: 10m
+  sharedStore: filesystem   # Local filesystem
+  persistence:
+    enabled: true
+    size: 5Gi
+    storageClassName: "standard"
   resources:
     limits:
       cpu: "200m"
@@ -38,6 +40,7 @@ compactor:
     requests:
       cpu: "100m"
       memory: "128Mi"
+
 
 
 distributor:
