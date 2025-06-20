@@ -1,14 +1,20 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+
+namespace: argocd
+
+# Include base settings
 resources:
   - ../../base
   - namespace.yaml
+    # - argocd-cm-dev.yaml  # optional dev-only CM
+
+# Helm chart for installing Argo CD software
 helmCharts:
   - name: argo-cd
     repo: https://argoproj.github.io/argo-helm
-    version: "8.1.1"   # Latest stable as of mid 2025; check https://artifacthub.io/packages/helm/argo/argo-cd
+    version: 8.1.1
     releaseName: argocd
     namespace: argocd
     valuesFile: values.yaml
 
-namespace: argocd

@@ -1,7 +1,3 @@
-# server:
-#   service:
-#     type: LoadBalancer
-
 controller:
   replicaCount: 1
 redis:
