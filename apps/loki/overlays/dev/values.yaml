@@ -1,107 +1,114 @@
+# Ensure clean resource names like loki-distributor, loki-ingester, etc.
 fullnameOverride: "loki"
-replicaCount: 1
 
-persistence:
-  enabled: true
-  size: 5Gi
-  storageClassName: "standard"
-
-ingester:
-  replicaCount: 1
-  wal:
-    enabled: true
-    storageClassName: "standard"
-    size: 5Gi
-  persistence:
-    enabled: true
-    size: 5Gi
+# Distributor
+distributor:
+  replicas: 1
   resources:
-    limits:
-      cpu: "200m"
-      memory: "256Mi"
     requests:
       cpu: "100m"
-      memory: "128Mi"
+      memory: "256Mi"
+    limits:
+      cpu: "200m"
+      memory: "512Mi"
 
+# Ingester with persistent storage
+ingester:
+  replicas: 1
+  resources:
+    requests:
+      cpu: "200m"
+      memory: "512Mi"
+    limits:
+      cpu: "400m"
+      memory: "1Gi"
+  persistence:
+    enabled: true
+    claims:
+      - name: data
+        size: 5Gi
+        storageClass: "standard"
+
+# Querier
+querier:
+  replicas: 1
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "200m"
+      memory: "512Mi"
+
+# Query Frontend
+queryFrontend:
+  replicas: 1
+  resources:
+    requests:
+      cpu: "50m"
+      memory: "128Mi"
+    limits:
+      cpu: "100m"
+      memory: "256Mi"
+
+# Compactor with persistent storage
 compactor:
   enabled: true
-  replicaCount: 1
-  retentionEnabled: false
-  compactionInterval: 10m
-  sharedStore: filesystem   # Local filesystem
+  kind: StatefulSet
+  replicas: 1
+  resources:
+    requests:
+      cpu: "100m"
+      memory: "256Mi"
+    limits:
+      cpu: "200m"
+      memory: "512Mi"
   persistence:
     enabled: true
     size: 5Gi
-    storageClassName: "standard"
+    storageClass: "standard"
+
+# Index Gateway with persistent storage
+indexGateway:
+  enabled: true
+  replicas: 1
+  persistence:
+    enabled: true
+    size: 5Gi
+    storageClass: "standard"
+
+# Gateway
+gateway:
+  enabled: true
+  replicas: 1
   resources:
-    limits:
-      cpu: "200m"
-      memory: "256Mi"
-    requests:
-      cpu: "100m"
-      memory: "128Mi"
-
-
-
-distributor:
-  replicaCount: 1
-  resources:
-    limits:
-      cpu: "100m"
-      memory: "128Mi"
-    requests:
-      cpu: "50m"
-      memory: "64Mi"
-
-querier:
-  replicaCount: 1
-  resources:
-    limits:
-      cpu: "200m"
-      memory: "256Mi"
-    requests:
-      cpu: "100m"
-      memory: "128Mi"
-
-queryFrontend:
-  replicaCount: 1
-  resources:
-    limits:
-      cpu: "100m"
-      memory: "128Mi"
     requests:
       cpu: "50m"
-      memory: "64Mi"
+      memory: "128Mi"
+    limits:
+      cpu: "100m"
+      memory: "256Mi"
 
-# ruler:
-#   replicaCount: 1
-#   persistence:
-#     enabled: true
-#     size: 5Gi
-#   resources:
-#     limits:
-#       cpu: "100m"
-#       memory: "128Mi"
-#     requests:
-#       cpu: "50m"
-#       memory: "64Mi"
+# Disable ruler
+ruler:
+  enabled: false
 
-storage:
-  backend: local
+# Loki common storage config
+loki:
+  storageConfig:
+    boltdb_shipper:
+      shared_store: filesystem
+      active_index_directory: /var/loki/index
+      cache_location: /var/loki/cache
+    filesystem:
+      directory: /var/loki/chunks
 
-  local:
-    directory: /data/loki
-
-schema_config:
-  configs:
-    - from: 2020-10-15
-      store: boltdb-shipper
-      object_store: filesystem
-      schema: v11
-      index:
-        prefix: index_
-        period: 168h
-
-# Sampler configuration added here
-server:
-  grpc_server_max_concurrent_streams: 100
+  schemaConfig:
+    configs:
+      - from: "2020-10-15"
+        store: boltdb-shipper
+        object_store: filesystem
+        schema: v11
+        index:
+          prefix: loki_index_
+          period: 24h
